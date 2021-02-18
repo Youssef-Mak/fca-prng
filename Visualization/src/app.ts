@@ -35,10 +35,13 @@ const sketch = (p5: P5) => {
 	};
 
   const mySelectEvent = () => {
-    console.log(+rule.value());
     const ruleTitle = document.getElementById("rule")!;
     ruleTitle.textContent = "Rule Number " + rule.value();
+
+    grid = new Array(rows);
     eca = new ElementaryCellularAutomata(+rule.value(), cols);
+
+    grid[0] = eca.getState();
   }
 
 	// The sketch draw method
@@ -48,7 +51,6 @@ const sketch = (p5: P5) => {
 
     for (let i = 0; i < rows; i++) {
       let state: string = eca.getState();
-      console.log(state);
       for (var j = 0; j < state.length; j++) {
         let x: number = i * resolution;
         let y: number = j * resolution;

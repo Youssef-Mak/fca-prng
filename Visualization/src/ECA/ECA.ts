@@ -2,8 +2,8 @@
 export class ElementaryCellularAutomata {
   rule: Record<string, string> = {};
   size: number;
-  protected previous: string;
-  protected state: string;
+  protected previous: string | number[];
+  protected state: string | number[];
 
   constructor(rule_number: number, size: number = 10) {
     this.decipherRule(rule_number);
@@ -21,29 +21,26 @@ export class ElementaryCellularAutomata {
 
   public decipherRule(rule_number: number): any {
     let ruleMapping: Record<string, string> = {};
-    console.log(rule_number);
     let binaryRule = (rule_number >>> 0).toString(2);
     // Convert to 8 bit
     while (binaryRule.length != 8) {
-      binaryRule = binaryRule + "0"; // Hacky
+      binaryRule = "0" + binaryRule; // Hacky
     }
     for (let i = 0; i < binaryRule.length; i++) {
-      binaryRule.charAt(i);
-      let ruleKey: string = (i >>> 0).toString(2)
+      let ruleKey: string = ((binaryRule.length - (i + 1)) >>> 0).toString(2)
       while (ruleKey.length != 3) {
         ruleKey = "0" + ruleKey;
       }
       ruleMapping[ruleKey] = binaryRule.charAt(i);
     }
-    // debugger;
     this.rule = ruleMapping;
   }
 
-  public getState(): string {
+  public getState(): string | number[] {
     return this.state;
   }
 
-  public getPrevious(): string {
+  public getPrevious(): string | number[] {
     return this.previous;
   }
 
@@ -53,9 +50,10 @@ export class ElementaryCellularAutomata {
       // Wolfram Neighboorhood
       let max = i + 1;
       let min = i - 1;
-      if (max == this.state.length) { max = 0 };
-      if (min == -1) { min = this.state.length - 1 };
-      let neighbourhood = this.state.charAt(min) + this.state.charAt(i) + this.state.charAt(max);
+      let maxElem = (max == this.state.length) ? this.state.charAt(0) : this.state.charAt(max);
+      let minElem = (min == -1) ? this.state.charAt(this.state.length - 1) : this.state.charAt(min);
+      let neighbourhood = minElem + this.state.charAt(i) + maxElem;
+      //debugger;
       newState = newState + this.rule[neighbourhood];
     }
     this.previous = this.state;
