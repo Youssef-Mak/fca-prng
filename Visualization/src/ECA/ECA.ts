@@ -1,9 +1,11 @@
 
+export type State = string | number[];
+
 export class ElementaryCellularAutomata {
   rule: Record<string, string> = {};
   size: number;
-  protected previous: string | number[];
-  protected state: string | number[];
+  protected previous: State; 
+  protected state: State;
 
   constructor(rule_number: number, size: number = 10) {
     this.decipherRule(rule_number);
@@ -36,15 +38,15 @@ export class ElementaryCellularAutomata {
     this.rule = ruleMapping;
   }
 
-  public getState(): string | number[] {
+  public getState(): State {
     return this.state;
   }
 
-  public getPrevious(): string | number[] {
+  public getPrevious(): State {
     return this.previous;
   }
 
-  public nextIteration(): string{
+  public nextIteration(): State {
     let newState = "";
     for (let i = 0; i < this.state.length; i++) {
       // Wolfram Neighboorhood
@@ -53,7 +55,6 @@ export class ElementaryCellularAutomata {
       let maxElem = (max == this.state.length) ? this.state.charAt(0) : this.state.charAt(max);
       let minElem = (min == -1) ? this.state.charAt(this.state.length - 1) : this.state.charAt(min);
       let neighbourhood = minElem + this.state.charAt(i) + maxElem;
-      //debugger;
       newState = newState + this.rule[neighbourhood];
     }
     this.previous = this.state;
