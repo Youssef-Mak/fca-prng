@@ -22,7 +22,7 @@ import path from 'path';
 
   console.log(`Running ${caNameOriginal}.generate`);
 
-  const number_generated = task.generate(rule_number, 40, number_of_iterations);
+  const number_generated = task.generate(rule_number, 60, number_of_iterations);
 
   console.log(`\n\n\nNumber Generated... -> ${number_generated}`);
 })();

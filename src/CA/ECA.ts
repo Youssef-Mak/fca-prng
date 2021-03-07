@@ -12,7 +12,7 @@ export default class ElementaryCellularAutomata {
   }
 
   constructor(rule_number: number, size: number = 10) {
-    this.decipherRule(rule_number);
+    this.rule = this.decipherRule(rule_number);
     this.size = size;
     this.previous = "";
     this.state = "";
@@ -39,7 +39,7 @@ export default class ElementaryCellularAutomata {
       }
       ruleMapping[ruleKey] = binaryRule.charAt(i);
     }
-    this.rule = ruleMapping;
+    return ruleMapping;
   }
 
   public getState(): State {
