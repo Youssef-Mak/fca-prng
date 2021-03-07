@@ -5,14 +5,19 @@
   "main": "index.html",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html",
+    "generate": "NODE_PATH=./src TS_NODE_PROJECT=./tsconfig.json ts-node -r tsconfig-paths/register ./src/generator.ts"
   },
   "devDependencies": {
+    "@types/node": "^14.14.31",
     "typescript": "^4.1.3"
   },
   "dependencies": {
     "@types/p5": "^0.9.1",
     "p5": "^1.2.0",
-    "parcel-bundler": "^1.12.4"
+    "parcel-bundler": "^1.12.4",
+    "path": "^0.12.7",
+    "ts-node": "^9.1.1",
+    "tsconfig-paths": "^3.9.0"
   }
 }

@@ -1,11 +1,15 @@
 
 export type State = string | number[];
 
-export class ElementaryCellularAutomata {
+export default class ElementaryCellularAutomata {
   rule: Record<string, string> = {};
   size: number;
-  protected previous: State; 
+  protected previous: State;
   protected state: State;
+
+  public static generate(rule_number: number, size: number, iterations: number): number {
+    return new ElementaryCellularAutomata(rule_number, size).generate(iterations);
+  }
 
   constructor(rule_number: number, size: number = 10) {
     this.decipherRule(rule_number);
@@ -46,15 +50,35 @@ export class ElementaryCellularAutomata {
     return this.previous;
   }
 
+  public generate(iterations: number): number {
+    let seed: string = new Date().getUTCMilliseconds().toString(2).substring(0, this.size);
+    while (seed.length != this.size) {
+      seed += "0";
+    }
+    this.state = seed;
+    let output: string = "";
+    for (let i = 0; i < iterations; i++) {
+      output = "";
+      for (let j = 0; j < this.size; j++){
+        this.nextIteration();
+        output = output + (this.state as string).charAt(j);
+      }
+    }
+    return parseInt(output, 2);
+  }
+
   public nextIteration(): State {
     let newState = "";
     for (let i = 0; i < this.state.length; i++) {
-      // Wolfram Neighboorhood
+      this.state = this.state as string;
       let max = i + 1;
       let min = i - 1;
       let maxElem = (max == this.state.length) ? this.state.charAt(0) : this.state.charAt(max);
       let minElem = (min == -1) ? this.state.charAt(this.state.length - 1) : this.state.charAt(min);
+      // Wolfram Neighboorhood
       let neighbourhood = minElem + this.state.charAt(i) + maxElem;
+      // TODO: Von Neumann Neighboorhood
+      // TODO: Moore Neighboorhood
       newState = newState + this.rule[neighbourhood];
     }
     this.previous = this.state;

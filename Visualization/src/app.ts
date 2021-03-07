@@ -1,7 +1,7 @@
 import P5 from "p5";
 
-import { ElementaryCellularAutomata, State } from "./ECA/ECA";
-import { FuzzyCellularAutomata } from "./FCA/FCA";
+import ElementaryCellularAutomata, { State } from "./CA/ECA";
+import FuzzyCellularAutomata from "./CA/FCA";
 
 let eca: ElementaryCellularAutomata;
 let fca: FuzzyCellularAutomata;
@@ -12,9 +12,9 @@ let rule: any;
 
 const sketch = (p5: P5) => {
 
-	p5.setup = () => {
-		const canvas = p5.createCanvas(600, 1200);
-		canvas.parent("app");
+  p5.setup = () => {
+    const canvas = p5.createCanvas(600, 1200);
+    canvas.parent("app");
 
     cols = p5.width / resolution;
     cols = cols * 2;
@@ -28,7 +28,7 @@ const sketch = (p5: P5) => {
 
     eca = new ElementaryCellularAutomata(+rule.value(), cols / 2);
     fca = new FuzzyCellularAutomata(+rule.value(), cols / 2);
-	};
+  };
 
   const mySelectEvent = () => {
     const ruleTitle = document.getElementById("rule-label")!;
@@ -38,7 +38,7 @@ const sketch = (p5: P5) => {
     fca = new FuzzyCellularAutomata(+rule.value(), cols / 2);
   };
 
-	p5.draw = () => {
+  p5.draw = () => {
     p5.background(0);
     p5.frameRate(5);
 
@@ -68,7 +68,7 @@ const sketch = (p5: P5) => {
       }
       fca.nextIteration();
     }
-	};
+  };
 };
 
 new P5(sketch);
