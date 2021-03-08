@@ -1,0 +1,3 @@
+language = "nodejs"
+onBoot = "npm install"
+run = "yarn run generate ECA 30 1"
